@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+}
+body {
+  display: flex;
+  position: relative;
+  justify-content: center;
+}
+
+button {
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid black;
+}
+
+#house {
+  background-color: rgb(221, 217, 205);
+}
+#vegetables {
+  background-color: rgba(154, 192, 87, 0.341);
+}
+#orange {
+  background-color: rgb(225, 53, 5, 0.1);
+}
+#fruits {
+  background-color: rgb(18, 113, 162, 0.14);
+}
+
+#map {
+  width: 99vw;
+  height: 98.6vh;
+}
+.marker {
+  display: block;
+  cursor: pointer;
+  width: 60px;
+  height: 52px;
+  background-image: url("icons/house.svg");
+  background-size: 100%;
+  visibility: hidden;
+}
+
+.mapboxgl-popup-content div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 20px;
+}
+.mapboxgl-popup-content h3 {
+  color: red;
+}
+
+.bottomNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 80%;
+  height: 200px;
+  bottom: 0;
+  gap: 30px;
+  padding: 10px;
+  font-size: 18px;
+}
+.navColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 240px;
+  height: 140px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+.divImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 240px;
+  height: 90px;
+  border-radius: 15px;
+}
+.divImg img {
+  height: 50px;
+  padding: 10px;
+  background-color: transparent;
+  border-radius: 15px;
+}
+.navRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}

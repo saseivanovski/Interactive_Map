@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Map</title>
+  </head>
+
+  <body>
+    <div id="map"></div>
+    <div class="bottomNav">
+      <div class="navColumn">
+        <div id="house" class="divImg">
+          <img src="icons/house.svg" />
+        </div>
+        <div class="navRow">
+          <button onclick="toggle(1)" id="houseBtn"></button>
+          <p>Vente direct</p>
+        </div>
+      </div>
+      <div class="navColumn">
+        <div id="vegetables" class="divImg">
+          <img class="brown" src="icons/vegetables.svg" />
+        </div>
+        <div class="navRow">
+          <button onclick="toggle(2)" id="vegetablesBtn"></button>
+          <p>Asperges et carittes</p>
+        </div>
+      </div>
+      <div class="navColumn">
+        <div id="orange" class="divImg">
+          <img class="brown" src="icons/abricots.svg" />
+        </div>
+        <div class="navRow">
+          <button onclick="toggle(3)" id="orangeBtn"></button>
+          <p>Abricots</p>
+        </div>
+      </div>
+      <div class="navColumn">
+        <div id="fruits" class="divImg">
+          <img class="brown" src="icons/fruits.svg" />
+        </div>
+        <div class="navRow">
+          <button onclick="toggle(4)" id="fruitsBtn"></button>
+          <p>Autres fruits et legumes</p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1IjoiZGV2b3R3aWlzdCIsImEiOiJjanN1ZXA0ZWcwcmFxNGFwZ3JxNDduc3Q3In0.p_pHiDDw5hIAX2adaVchcw";
+      const map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v12",
+        center: [7.166519, 46.161048],
+        zoom: 10,
+      });
+
+      // Data
+      const geoItems = {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: {
+              message: "Moret fruits",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [6.929626, 46.370029],
+            },
+          },
+          {
+            type: "Feature",
+            properties: {
+              message: "Second House",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [7.000008, 46.256915],
+            },
+          },
+          {
+            type: "Feature",
+            properties: {
+              message: "Third House",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [7.031593, 46.174244],
+            },
+          },
+          {
+            type: "Feature",
+            properties: {
+              message: "Fourth House",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [7.113991, 46.11906],
+            },
+          },
+          {
+            type: "Feature",
+            properties: {
+              message: "Fifth House",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [7.3629, 46.224622],
+            },
+          },
+          {
+            type: "Feature",
+            properties: {
+              message: "Sixth House",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [7.524948, 46.281123],
+            },
+          },
+          {
+            type: "Feature",
+            properties: {
+              message: "Seventh House",
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [7.617645, 46.308403],
+            },
+          },
+        ],
+      };
+
+      // Create marker and add it to the map
+      for (const marker of geoItems.features) {
+        const element = document.createElement("div");
+        const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+          `<div><h3>${marker.properties.message}</h3><p>&#129130</p></div>
+           <div><img src="icons/house.svg"/><p>Enter Location</p></div>
+           <div>Enter Text</div>`
+        );
+
+        element.className = "marker";
+
+        new mapboxgl.Marker(element)
+          .setLngLat(marker.geometry.coordinates)
+          .setPopup(popup)
+          .addTo(map);
+      }
+
+      // Constants
+      const markers = document.getElementsByClassName("marker");
+      const houseBtn = document.getElementById("houseBtn");
+      const vegetablesBtn = document.getElementById("vegetablesBtn");
+      const orangeBtn = document.getElementById("orangeBtn");
+      const fruitsBtn = document.getElementById("fruitsBtn");
+
+      // Polygons
+      map.on("load", () => {
+        ////////////////// Vegetables
+        map.addSource("vegetables", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [6.8637085, 46.2245028],
+                      [6.9584656, 46.1027566],
+                      [7.0188904, 46.131315],
+                      [6.9873047, 46.1931409],
+                      [6.8664551, 46.2235527],
+                    ],
+                  ],
+                },
+              },
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [7.2633362, 46.1779286],
+                      [7.4432373, 46.2264029],
+                      [7.4720764, 46.1845845],
+                      [7.2660828, 46.1141817],
+                      [7.2619629, 46.1750759],
+                    ],
+                  ],
+                },
+              },
+            ],
+          },
+        });
+        // new layer
+        map.addLayer({
+          id: "vegetables",
+          type: "fill",
+          source: "vegetables",
+          layout: { visibility: "none" },
+          paint: {
+            "fill-color": "lightgreen",
+            "fill-opacity": 0.5,
+          },
+        });
+        // outline
+        map.addLayer({
+          id: "outline",
+          type: "line",
+          source: "vegetables",
+          layout: { visibility: "none" },
+          paint: {
+            "line-color": "green",
+            "line-width": 1,
+          },
+        });
+
+        //////////////// Orange
+        map.addSource("orange", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [6.9306564, 46.3876751],
+                      [6.9570923, 46.3426616],
+                      [7.0261002, 46.353326],
+                      [6.9303131, 46.389096],
+                    ],
+                  ],
+                },
+              },
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [6.9694519, 46.3085214],
+                      [7.0075607, 46.2506241],
+                      [7.0693588, 46.2579833],
+                      [6.9694519, 46.30947],
+                    ],
+                  ],
+                },
+              },
+            ],
+          },
+        });
+        // new layer
+        map.addLayer({
+          id: "orange",
+          type: "fill",
+          source: "orange",
+          layout: { visibility: "none" },
+          paint: {
+            "fill-color": "red",
+            "fill-opacity": 0.5,
+          },
+        });
+        // outline
+        map.addLayer({
+          id: "outlineO",
+          type: "line",
+          source: "orange",
+          layout: { visibility: "none" },
+          paint: {
+            "line-color": "red",
+            "line-width": 1,
+          },
+        });
+
+        //////////////// Fruits
+        map.addSource("fruits", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [7.0975113, 46.0996618],
+                      [7.1311569, 46.0727543],
+                      [7.1733856, 46.0875193],
+                      [7.1682358, 46.1084694],
+                      [7.1390533, 46.1034707],
+                      [7.1369934, 46.1158477],
+                      [7.0975113, 46.0998999],
+                    ],
+                  ],
+                },
+              },
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [7.0466995, 46.1848222],
+                      [7.0930481, 46.1241768],
+                      [7.2094345, 46.1795927],
+                      [7.13974, 46.172223],
+                      [7.181282, 46.2038345],
+                      [7.116394, 46.2069233],
+                      [7.0473862, 46.1845845],
+                    ],
+                  ],
+                },
+              },
+              {
+                type: "Feature",
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [
+                    [
+                      [7.2516632, 46.2024088],
+                      [7.2241974, 46.2214149],
+                      [7.2787857, 46.231153],
+                      [7.2973251, 46.2180893],
+                      [7.2506332, 46.2019335],
+                    ],
+                  ],
+                },
+              },
+            ],
+          },
+        });
+        // new layer
+        map.addLayer({
+          id: "fruits",
+          type: "fill",
+          source: "fruits",
+          layout: { visibility: "none" },
+          paint: {
+            "fill-color": "lightblue",
+            "fill-opacity": 0.5,
+          },
+        });
+        // outline
+        map.addLayer({
+          id: "outlineF",
+          type: "line",
+          source: "fruits",
+          layout: { visibility: "none" },
+          paint: {
+            "line-color": "blue",
+            "line-width": 1,
+          },
+        });
+      });
+
+      // Show || Hide
+      function toggle(id) {
+        if (id === 1) {
+          for (const marker of markers) {
+            if (marker.style.visibility === "visible") {
+              marker.style.visibility = "hidden";
+              houseBtn.innerHTML = "";
+            } else {
+              marker.style.visibility = "visible";
+              houseBtn.innerHTML = "✓";
+            }
+          }
+        }
+        if (id === 2) {
+          if (vegetablesBtn.innerHTML === "") {
+            map.setLayoutProperty("vegetables", "visibility", "visible");
+            map.setLayoutProperty("outline", "visibility", "visible");
+            vegetablesBtn.innerHTML = "✓";
+          } else {
+            map.setLayoutProperty("vegetables", "visibility", "none");
+            map.setLayoutProperty("outline", "visibility", "none");
+            vegetablesBtn.innerHTML = "";
+          }
+        }
+        if (id === 3) {
+          if (orangeBtn.innerHTML === "") {
+            map.setLayoutProperty("orange", "visibility", "visible");
+            map.setLayoutProperty("outlineO", "visibility", "visible");
+            orangeBtn.innerHTML = "✓";
+          } else {
+            map.setLayoutProperty("orange", "visibility", "none");
+            map.setLayoutProperty("outlineO", "visibility", "none");
+            orangeBtn.innerHTML = "";
+          }
+        }
+        if (id === 4) {
+          if (fruitsBtn.innerHTML === "") {
+            map.setLayoutProperty("fruits", "visibility", "visible");
+            map.setLayoutProperty("outlineF", "visibility", "visible");
+            fruitsBtn.innerHTML = "✓";
+          } else {
+            map.setLayoutProperty("fruits", "visibility", "none");
+            map.setLayoutProperty("outlineF", "visibility", "none");
+            fruitsBtn.innerHTML = "";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
